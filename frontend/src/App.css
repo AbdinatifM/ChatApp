@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+
+.font-alata {
+  font-family: "Alata", sans-serif;
+}
