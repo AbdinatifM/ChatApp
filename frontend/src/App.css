@@ -1,6 +1,7 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+@import "remixicon/fonts/remixicon.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-.font-alata {
-  font-family: "Alata", sans-serif;
+.font-Poppins {
+  font-family: "Poppins", sans-serif;
 }

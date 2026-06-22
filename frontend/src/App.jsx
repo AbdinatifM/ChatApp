@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import LandingPage from './pages/LandingPage'
 import { Route, Routes } from 'react-router-dom'
+import LoginPage from './pages/LoginPage'
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />}/>
-
+        <Route path="/login" element={<LoginPage />} />
 
 
         {/* <Route element={Protected/>}>    </Route>*/}
