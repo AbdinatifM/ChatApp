@@ -1,21 +1,23 @@
 import bcrypt from "bcrypt";
-import User from "../models/User";
+import User from "../models/User.js";
+import jwt from "jsonwebtoken"
 
 
 
-export const registerAccount = (req, res) => {
+export const registerAccount = async(req, res) => {
     try {
         const { username, password } = req.body;
         const newUser = new User({ username, password });
         await newUser.save();
         res.status(201).json({ message: "User registered sucessfully!"})
     } catch (error) {
+        console.error("Registration Error:", error);
         res.status(500).json({ error: error.message});
     }
 }  
 
 
-export const loginAccount = (req, res) => {
+export const loginAccount = async(req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -32,7 +34,7 @@ export const loginAccount = (req, res) => {
         }
 
         const token = jwt.sign(
-            { userId: user._index }, 
+            { userId: user._id }, 
             process.env.JWT_SECRET,
             { expiresIn: '1d'}
         );
@@ -45,6 +47,7 @@ export const loginAccount = (req, res) => {
         });
         res.status(200).json({ message: "Login successful", user: username});
     } catch (error) {
+        console.error("Login Error:", error);
         res.status(500).json({ error: error.message });
     }
 }

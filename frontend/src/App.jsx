@@ -8,11 +8,13 @@ import { Route, Routes } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import ProtectedRoute from './components/ProtectedRoute'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
   return (
     <>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path="/login" element={<LoginPage />}/>

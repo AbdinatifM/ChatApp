@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
-    username: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
-});
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
+}, { timestamps: true });
 
 
 userSchema.pre('save', async function(next) {
@@ -13,9 +14,8 @@ userSchema.pre('save', async function(next) {
     try {
         const saltRounds = 10;
         this.password = await bcrypt.hash(this.password, saltRounds);
-        next();
     } catch (error) {
-        next(error);
+        console.error("User PreSave Error:", error);
     }
 });
 
