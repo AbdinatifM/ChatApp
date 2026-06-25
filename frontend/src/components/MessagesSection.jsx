@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import MessageBox from './MessageBox'
 import { api } from '../api/api';
-
+import { io } from 'socket.io-client'
+import { useRef } from 'react';
 function MessagesSection() {
     const [friendList, setFriendList] = useState([]);
     const [selectedFriend, setSelectedFriend] = useState(null);
-
+    const [selectedChatId, setSelectedChatId] = useState(null); 
+    const [messages, setMessages] = useState([]);
+    const socketRef = useRef(null);
 
     const loadFriendList = async() => {
         try {
@@ -16,8 +19,45 @@ function MessagesSection() {
         }
     }
 
+    const handleSendMessage = async(e, message, setMessage) => {  
+        if (event.key === "Enter" && !event.shiftKey) {
+            e.preventDefault();
+            if (message.trim() !== '' && selectedChatId) {
+                const payload = {
+                    chatId: selectedChatId,
+                    message: message
+                }
+
+                socketRef.current.emit("private message", payload);
+                setMessage('');
+            }
+        }
+    }
+    const handleJoinChat = async(friend) => {
+        setSelectedChatId(friend.chatId);
+        setMessages([]);
+        setSelectedFriend(friend);
+        socketRef.current.emit('join chat', friend.chatId);  
+    }
+
     useEffect(() => {
         loadFriendList();
+        socketRef.current = io('http://localhost:4000', {
+            withCredentials: true
+        });
+
+        socketRef.current.on('chat history', (history) => {
+            console.log(history);
+            setMessages(history)
+        });
+        
+        socketRef.current.on('private message', (msg) => {
+            setMessages((prevMessages) => [...prevMessages, msg]);
+        });
+
+        return () => {
+            socketRef.current.disconnect();
+        };
     }, [])
 
     return (
@@ -27,7 +67,7 @@ function MessagesSection() {
                 <div className='flex-1 flex flex-col items-center py-2'>
                     {friendList.map((friend) => (
                         <button className='bg-[#F2F2F2]/20 text-white py-[6px] px-[5rem] rounded-md'
-                            onClick={() => setSelectedFriend(friend)}
+                            onClick={() => handleJoinChat(friend)}
                         >
                             <i class="ri-user-fill mr-2"></i>
                             <span>{friend.username}</span>
@@ -40,7 +80,7 @@ function MessagesSection() {
                 {selectedFriend === null ? 
                     <p className='text-white text-center'>Select a user from the list to start a conversation or continue an existing one.</p>
                     : 
-                    <MessageBox username={selectedFriend.username}/>
+                    <MessageBox username={selectedFriend.username} friendId={selectedFriend._id} handleMessage={handleSendMessage} messages={messages}/>
                 }
             </div>
         </div>

@@ -5,3 +5,17 @@
 .font-poppins {
   font-family: "Poppins", sans-serif;
 }
+
+
+.chat-container::-webkit-scrollbar {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}

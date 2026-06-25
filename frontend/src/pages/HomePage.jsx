@@ -10,7 +10,7 @@ function HomePage() {
         <div className='h-screen bg-[url(./assets/background.png)] bg-cover flex items-center justify-center'>
             <div className='flex flex-col items-center justify-center gap-2'>
                 <div className='h-[50px] bg-white/10 backdrop-filter backdrop-blur-lg border border-white/20 shadow-lg rounded-[15px] py-[10px] px-[20px] flex flex-col items-center justify-center gap-2 self-start'>
-                    <h2 className='font-poppins text-white font-bold'>MESSAGES</h2>
+                    <h2 className='font-poppins text-white font-bold'>{toggle ? "MESSAGE" : "ADD FRIEND"}</h2>
                 </div>
                 <div className='flex gap-2'>
                     <div className='h-[500px] w-[50px] bg-white/10 backdrop-filter backdrop-blur-lg border border-white/20 shadow-lg rounded-[15px] py-[10px] flex flex-col items-center justify-between gap-2 text-[1.5rem]'>

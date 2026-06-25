@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Chat from "../models/Chat.js"
 
 
+
 export const addFriend = async(req, res) => {
     console.log("res.body: ", req.body);
     const { friendUsername } = req.body;
@@ -24,7 +25,8 @@ export const addFriend = async(req, res) => {
         await User.findByIdAndUpdate(currentUserId, { $push: { friends: friend._id } });
 
         await User.findByIdAndUpdate(friend._id, { $push: { friends: currentUserId} });
-
+        
+        
         await Chat.create({
             user1: currentUserId,
             user2: friend._id
@@ -38,12 +40,29 @@ export const addFriend = async(req, res) => {
 
 
 export const getFriends = async(req, res) => {
-
+    const currentUserId = req.user._id
     try {
         const user = await User.findById(req.user._id).populate("friends", "_id username");
+        
+        const friendsWithChatIds = await Promise.all(
+            user.friends.map(async (friend) => {
+                let chat = await Chat.findOne({
+                    $or: [
+                        { user1: currentUserId, user2: friend._id },
+                        { user1: friend._id, user2: currentUserId }
+                    ]
+                });
 
-        return res.status(200).json(user.friends);
+                return {
+                    _id: friend._id,
+                    username: friend.username,
+                    chatId: chat._id
+                };
+            })
+        );
+        return res.status(200).json(friendsWithChatIds);
     } catch (error) {
          res.status(500).json({ error: error});
+         console.log(error);
     }
 }
