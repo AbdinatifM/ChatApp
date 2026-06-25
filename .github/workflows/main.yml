@@ -1,5 +1,6 @@
 name: ChatApp Pipeline
 
+
 on:
   push:
     branches: [ main ]
@@ -15,12 +16,17 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Node.js Environment
-      uses: actions/active-node@v4
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    - name: Install Project Dependencies
-      run: npm install
+    - name: Validate Backend Assets
+      run: |
+        cd backend
+        npm install
 
-    - name: Build Verification Check
-      run: npm run build --if-present
+    - name: Validate Frontend Assets
+      run: |
+        cd frontend
+        npm install
+        npm run build --if-present
