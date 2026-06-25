@@ -9,6 +9,7 @@ function MessagesSection() {
     const [selectedChatId, setSelectedChatId] = useState(null); 
     const [messages, setMessages] = useState([]);
     const socketRef = useRef(null);
+    const BACKEND_URL = process.env.BACKEND_URL;
 
     const loadFriendList = async() => {
         try {
@@ -42,7 +43,7 @@ function MessagesSection() {
 
     useEffect(() => {
         loadFriendList();
-        socketRef.current = io('http://localhost:4000', {
+        socketRef.current = io(BACKEND_URL, {
             withCredentials: true
         });
 
