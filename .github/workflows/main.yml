@@ -1,0 +1,26 @@
+name: ChatApp Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-code:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout GitHub Repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js Environment
+      uses: actions/active-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Project Dependencies
+      run: npm install
+
+    - name: Build Verification Check
+      run: npm run build --if-present
