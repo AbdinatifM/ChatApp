@@ -66,8 +66,8 @@ function MessagesSection() {
             <div className='flex-1 flex flex-col px-2'>
                 <input className='bg-white rounded-md py-2 px-2' type="text" name="" id="" placeholder='Search for user' />
                 <div className='flex-1 flex flex-col items-center py-2'>
-                    {friendList.map((friend) => (
-                        <button className='bg-[#F2F2F2]/20 text-white py-[6px] px-[5rem] rounded-md'
+                    {friendList.map((friend, index) => (
+                        <button key={index} className='bg-[#F2F2F2]/20 text-white py-[6px] px-[5rem] rounded-md'
                             onClick={() => handleJoinChat(friend)}
                         >
                             <i class="ri-user-fill mr-2"></i>
