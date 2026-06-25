@@ -14,9 +14,14 @@ function MessagesSection() {
     const loadFriendList = async() => {
         try {
             const res = await api.get("/user/list");
-            setFriendList(res.data);
+            if (Array.isArray(res.data)) {
+                setFriendList(res.data);
+            } else {
+                setFriendList([]);
+            }
         } catch (error) {
             console.log("Load friend list error: ", error);
+            setFriendList([]);
         }
     }
 
