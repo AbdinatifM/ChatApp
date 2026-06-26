@@ -44,6 +44,7 @@ function MessagesSection() {
         setSelectedFriend(friend);
         socketRef.current.emit('join chat', friend.chatId);  
     }
+    const pattern = /^[A-Za-z]*$/;
 
     useEffect(() => {
         loadFriendList();
