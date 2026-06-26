@@ -7,9 +7,11 @@ function MessagesSection() {
     const [friendList, setFriendList] = useState([]);
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null); 
+    const [inputText, setInputText] = useState('');
     const [messages, setMessages] = useState([]);
     const socketRef = useRef(null);
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL.replace("/api", "");;
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL.replace("/api", "");
+    const filteredFriendList = friendList.filter(item => item.username.toLowerCase().includes(inputText.toLowerCase()));
 
     const loadFriendList = async() => {
         try {
@@ -66,9 +68,19 @@ function MessagesSection() {
     return (
         <div className='flex-1 flex'>
             <div className='flex-1 flex flex-col px-2'>
-                <input className='bg-white rounded-md py-2 px-2' type="text" name="" id="" placeholder='Search for user' />
+                <input className='bg-white rounded-md py-2 px-2' type="text" name="" id="" placeholder='Search for user' 
+                    value={inputText}
+                    onChange={(e) => { 
+                        const pattern = "^[A-Z][a-z]{2,7}$"
+
+                        const nextValue = e.target.value
+                        if (pattern.test(nextValue)){ 
+                            setInputText(nextValue);
+                        }
+                    }}
+                />
                 <div className='flex-1 flex flex-col items-center py-2'>
-                    {friendList.map((friend, index) => (
+                    {filteredFriendList.map((friend, index) => (
                         <button key={index} className='bg-[#F2F2F2]/20 text-white py-[6px] px-[5rem] rounded-md'
                             onClick={() => handleJoinChat(friend)}
                         >
