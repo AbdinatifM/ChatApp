@@ -72,8 +72,6 @@ function MessagesSection() {
                 <input className='bg-white rounded-md py-2 px-2' type="text" name="" id="" placeholder='Search for user' 
                     value={inputText}
                     onChange={(e) => { 
-                        const pattern = /^[A-Z][a-z]{2,7}$/
-
                         const nextValue = e.target.value
                         if (pattern.test(nextValue)){ 
                             setInputText(nextValue);
