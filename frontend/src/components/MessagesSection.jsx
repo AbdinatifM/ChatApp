@@ -9,17 +9,13 @@ function MessagesSection() {
     const [selectedChatId, setSelectedChatId] = useState(null); 
     const [messages, setMessages] = useState([]);
     const socketRef = useRef(null);
-    const BACKEND_URL = process.env.BACKEND_URL;
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const loadFriendList = async() => {
         try {
             const res = await api.get("/user/list");
             console.log("FriendList Data: ", res.data);
-            if (Array.isArray(res.data)) {
-                setFriendList(res.data);
-            } else {
-                setFriendList([]);
-            }
+            setFriendList(res.data);
         } catch (error) {
             console.log("Load friend list error: ", error);
             setFriendList([]);
