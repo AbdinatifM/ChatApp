@@ -9,7 +9,7 @@ function MessagesSection() {
     const [selectedChatId, setSelectedChatId] = useState(null); 
     const [messages, setMessages] = useState([]);
     const socketRef = useRef(null);
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL.replace("/api", "");;
 
     const loadFriendList = async() => {
         try {
