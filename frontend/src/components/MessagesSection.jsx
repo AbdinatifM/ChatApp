@@ -79,7 +79,7 @@ function MessagesSection() {
                         }
                     }}
                 />
-                <div className='flex-1 flex flex-col items-center py-2'>
+                <div className='flex-1 flex flex-col items-center py-2 gap-2'>
                     {filteredFriendList.map((friend, index) => (
                         <button key={index} className='bg-[#F2F2F2]/20 text-white py-[6px] px-[5rem] rounded-md'
                             onClick={() => handleJoinChat(friend)}
